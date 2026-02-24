@@ -33,12 +33,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 텍스트에리어 가로 100% 강제 적용 및 배경색 흰색으로 변경 */
+        /* 텍스트에리어 가로 100% 강제 적용 및 배경색 흰색 고정 */
         .textarea-base {
             display: block !important;
             width: 100% !important;
             box-sizing: border-box !important;
-            /* 배경색을 bg-white로 고정하여 가독성 확보 */
             @apply px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-lg leading-relaxed resize-none shadow-sm;
         }
 
@@ -159,8 +158,8 @@
             <!-- Step 3: Context & Few-Shot -->
             <div class="wizard-step w-full" id="step3">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">3. 배경 정보 및 맥락 (퓨샷 예시 포함)</h2>
-                    <p class="text-slate-500">품질 높은 답변을 위해 필요한 데이터와 입출력 예시(Few-Shot)를 입력합니다.</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">3. 배경 정보 및 맥락 (제약사항 포함)</h2>
+                    <p class="text-slate-500">품질 높은 답변을 위해 필요한 데이터와 반드시 지켜야 할 규칙을 입력합니다.</p>
                 </div>
                 <div class="space-y-10 w-full">
                     <div class="w-full">
@@ -168,8 +167,12 @@
                             <i data-lucide="zap" class="w-4 h-4"></i> 퓨샷(Few-Shot): 입출력 예시
                         </label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Examples for AI to follow (Input-Output samples)</p>
-                        <!-- 배경색을 흰색으로 변경 -->
-                        <textarea id="fewShot" class="textarea-base h-64 border-blue-100 bg-white" placeholder="[예시 1]&#10;입력: ...&#10;출력: ...&#10;&#10;[예시 2]&#10;입력: ...&#10;출력: ..."></textarea>
+                        <textarea id="fewShot" class="textarea-base h-64 border-blue-100 shadow-blue-50/50" placeholder="[예시 1]&#10;입력: ...&#10;출력: ..."></textarea>
+                    </div>
+                    <div class="w-full">
+                        <label class="block font-bold text-slate-700 mb-2 text-red-600">질문: AI가 반드시 지켜야 할 제약사항 및 규칙은 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Mandatory Constraints or Rules (e.g., specific formatting, no external references)</p>
+                        <textarea id="mandatoryRules" class="textarea-base h-48 border-red-100" placeholder="예: 답변 시 반드시 실무 예시를 2개 이상 포함할 것, 모든 결과물은 존댓말로 작성할 것 등"></textarea>
                     </div>
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2">질문: AI가 참고해야 할 핵심 데이터나 문서의 내용은 무엇인가요?</label>
@@ -204,14 +207,12 @@
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 답변의 심도(상세도) 수준은 어느 정도여야 하나요?</label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Depth and Detail Level (e.g., Academic, Comprehensive)</p>
-                        <!-- 배경색을 흰색으로 변경 -->
-                        <textarea id="outputDepth" class="textarea-base h-48 border-indigo-100 bg-white" placeholder="예: 학술적 분석 수준의 심도, 매우 상세한 기술 가이드, 간결한 요점 정리 등"></textarea>
+                        <textarea id="outputDepth" class="textarea-base h-48 border-indigo-100" placeholder="예: 학술적 분석 수준의 심도, 매우 상세한 기술 가이드 등"></textarea>
                     </div>
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 결과물의 구체적인 분량 제한이 있나요?</label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Specific Length Guide (e.g., 2000 chars, 5 paragraphs)</p>
-                        <!-- 배경색을 흰색으로 변경 -->
-                        <textarea id="outputLength" class="textarea-base h-48 border-indigo-100 bg-white" placeholder="예: A4 1장 분량, 공백 포함 1500자 이내, 각 섹션별 3문장 이상 등"></textarea>
+                        <textarea id="outputLength" class="textarea-base h-48 border-indigo-100" placeholder="예: A4 1장 분량, 공백 포함 1500자 이내 등"></textarea>
                     </div>
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2">질문: 결과물에 반드시 포함되어야 할 항목이나 섹션 제목은 무엇인가요?</label>
@@ -277,7 +278,7 @@
                     </div>
                     <h2 class="text-3xl font-bold text-slate-900 mb-4">설계가 완료되었습니다!</h2>
                     <p class="text-slate-500 text-lg mb-10 max-w-md mx-auto">
-                        모든 요구사항이 정리되었습니다. 아래 버튼을 눌러 완성된 프롬프트를 복사하세요. 복사 후 자동으로 첫 페이지로 돌아갑니다.
+                        모든 요구사항이 정리되었습니다. 아래 버튼을 눌러 완성된 프롬프트를 클립보드에 복사하세요. 복사 후 자동으로 첫 페이지로 돌아갑니다.
                     </p>
                     
                     <button type="button" onclick="generateAndCopy()" class="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl shadow-2xl shadow-blue-200 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-4 mx-auto">
@@ -412,6 +413,10 @@ ${getV('careItems')}
 ### 입출력 예시 (Few-Shot Examples)
 #### 질문: AI가 참고할 수 있는 퓨샷(Few-Shot) 예시가 있나요?
 ${getV('fewShot')}
+
+### 제약 사항 및 규칙 (Mandatory Constraints & Rules)
+#### 질문: AI가 반드시 지켜야 할 제약사항 및 규칙은 무엇인가요?
+${getV('mandatoryRules')}
 
 ### 참조 데이터 및 배경 (Reference Data & Background)
 #### 질문: AI가 참고해야 할 핵심 데이터나 문서의 내용은 무엇인가요?
