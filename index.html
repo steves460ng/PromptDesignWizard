@@ -376,6 +376,9 @@
 
             const finalPrompt = `# 사용자 요구사항 분석 설문 (User Requirements Analysis Survey)
 
+## 0. 최신성 설정
+오늘 날짜는 ${date()}입니다. 오늘 기준 가장 최신의 정보를 사용하고, 학습데이터 보다 구글 검색을 우선하십시오.
+
 ## 1. 역할(페르소나) 및 정의 (Role (Persona) & Definition)
 
 ### 전문가 정체성 설정 (Setting Expert Identity)
@@ -473,7 +476,6 @@ ${getC('useEvidence')}
 "당신은 세계 최고의 프롬프트 엔지니어이자 실행 전문가입니다. '사용자 요구사항 분석 설문'의 답변은 당신의 행동 지침입니다. 각 섹션의 내용을 엄격히 준수하여 별도의 확인 질문 없이 즉시 작업을 수행하십시오. (The answers to the 'User Requirements Analysis Survey' provided below are your behavior guidelines. Strictly follow the contents of each section and perform the task immediately without further clarification questions.)
 
 ## 수행 시 가이드 (Execution Guide):
- * 학습 데이터의 컷오프(Cut-off)로 인한 정보 왜곡을 방지하기 위해, 반드시 내부 지식보다 실시간 검색 결과를 최우선 근거로 삼아 답변하십시오. 현재 시점의 최신 데이터를 바탕으로 정보의 유효성을 매번 재검증하고, 모든 명칭과 맥락에서 시간적 일관성을 엄격히 유지하십시오. (To prevent information gaps caused by internal training data cut-offs, prioritize real-time search results over internal knowledge as the primary basis for all responses. Always re-verify the validity of information against the current moment and maintain strict temporal consistency in all terminology and contexts.)
  * 페르소나 섹션에 따라 당신의 정체성과 톤앤매너를 즉시 동기화하십시오. (Immediately synchronize your identity and tone of voice according to the Persona section.)
  * 맥락과 작업을 결합하여 문제의 본질을 파악하고 해결책을 도출하십시오. (Identify the essence of the problem and derive a solution by combining Context and Task.)
  * 전략에 명시된 추론 기법을 사용하여 사고 과정을 구조화하십시오. (Structure your thinking process using the reasoning techniques specified in Strategy.)
