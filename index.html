@@ -371,13 +371,22 @@
         }
 
         function generateAndCopy() {
+            const getTodayDate = () => {
+                const today = new Date();
+                return today.toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+            };
+            
             const getV = (id) => document.getElementById(id).value.trim() || "(미입력)";
             const getC = (id) => document.getElementById(id).checked ? "네, 적용해 주세요." : "아니오, 생략해 주세요.";
 
             const finalPrompt = `# 사용자 요구사항 분석 설문 (User Requirements Analysis Survey)
 
 ## 0. 최신성 설정
-오늘 날짜는 ${date()}입니다. 오늘 기준 가장 최신의 정보를 사용하고, 학습데이터 보다 구글 검색을 우선하십시오.
+오늘 날짜는 ${getTodayDate()}입니다. 오늘 기준 가장 최신의 정보를 사용하고, 학습데이터 보다 구글 검색을 우선하십시오.
 
 ## 1. 역할(페르소나) 및 정의 (Role (Persona) & Definition)
 
