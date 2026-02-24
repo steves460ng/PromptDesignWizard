@@ -33,7 +33,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 텍스트에리어 스타일 - 내부 여백(Padding) 적용 및 배경색 흰색 */
+        /* 텍스트에리어 스타일 - 내부 여백(Padding) 적용 */
         .textarea-base {
             display: block !important;
             width: 100% !important;
@@ -71,11 +71,16 @@
         #confirmModal.active {
             display: flex;
         }
+
+        .clickable-icon {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Custom Confirmation Modal (Reset Only) -->
+    <!-- Custom Confirmation Modal -->
     <div id="confirmModal" class="fixed inset-0 z-[100] items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 transform transition-all">
             <div class="flex items-center gap-3 mb-4 text-red-600">
@@ -101,7 +106,6 @@
         <div class="max-w-4xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
-                    <!-- 마법봉 아이콘: 시각 효과 유지 -->
                     <div class="bg-blue-600 p-1.5 rounded-lg shadow-lg shadow-blue-100">
                         <i data-lucide="wand-2" class="text-white w-5 h-5"></i>
                     </div>
@@ -109,7 +113,6 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="text-sm font-medium text-slate-400" id="stepIndicator">Step 1 of 6</div>
-                    <!-- 초기화 전용 버튼 -->
                     <button onclick="showModal()" class="text-xs bg-slate-100 hover:bg-red-50 hover:text-red-600 px-2 py-1 rounded-md text-slate-500 font-bold transition-all flex items-center gap-1">
                         <i data-lucide="refresh-ccw" class="w-3 h-3"></i>
                         초기화
@@ -135,144 +138,109 @@
     <main class="flex-grow max-w-4xl mx-auto w-full px-6 py-12">
         <form id="wizardForm" class="w-full">
             
-            <!-- Step 1: Persona & Recency -->
+            <!-- Step 1: Persona & Audience -->
             <div class="wizard-step active w-full" id="step1">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">1. 역할 및 정의</h2>
-                    <p class="text-slate-500">AI가 어떠한 전문가적 관점에서 문제를 해결해야 하는지 정의합니다.</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">1. 역할 및 대상 정의</h2>
+                    <p class="text-slate-500">AI의 페르소나와 답변을 받아볼 대상의 수준을 설정합니다.</p>
                 </div>
                 <div class="space-y-10 w-full">
-                    <div class="w-full">
+                    <div>
                         <label class="block font-bold text-slate-700 mb-2">질문: AI에게 부여할 구체적인 전문가 역할(페르소나)은 무엇인가요?</label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Expert Persona (e.g., Senior Marketer)</p>
                         <textarea id="persona" class="textarea-base h-48" placeholder="예: 시니어 웹 개발자, 비즈니스 전략가 등"></textarea>
                     </div>
-                    <div class="w-full">
+                    <div>
                         <label class="block font-bold text-slate-700 mb-2 text-blue-600">질문: 정보의 최신성 제어 및 최신 데이터 반영 기준을 어떻게 설정하실 건가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Recency Control & Data Cutoff Management</p>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Recency Control</p>
                         <textarea id="recencyControl" class="textarea-base h-48 border-blue-100" placeholder=""></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 답변 시 유지해야 할 어조와 매너는 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Tone and Manner (e.g., Formal, Logical)</p>
-                        <textarea id="tone" class="textarea-base h-48" placeholder="예: 논리적이고 차분한 어조"></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2">질문: 이 결과물을 받아볼 최종 대상과 그들의 전문 지식 수준은 어떠한가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Target Audience & Their Knowledge Level</p>
+                        <textarea id="audience" class="textarea-base h-48" placeholder="예: 프롬프팅을 잘 모르는 일반인, 기술적 이해도가 높은 경영진 등"></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 이 결과물을 받아볼 최종 대상은 누구인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Target Audience</p>
-                        <textarea id="audience" class="textarea-base h-48" placeholder="예: 초보자, 일반인, 경영진 등"></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 대상의 전문 지식 수준은 어느 정도인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Level of Expertise</p>
-                        <textarea id="expertise" class="textarea-base h-48" placeholder="예: 입문자 수준"></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2">질문: 답변 시 유지해야 할 전문가다운 어조와 매너는 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Tone and Manner</p>
+                        <textarea id="tone" class="textarea-base h-48" placeholder="예: 논리적이고 차분한 어조, 혹은 친절하고 격려하는 말투"></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 2: Task -->
+            <!-- Step 2: Goal & Task -->
             <div class="wizard-step w-full" id="step2">
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-slate-900 mb-2">2. 작업 목표 및 행동 정의</h2>
                     <p class="text-slate-500">AI가 수행해야 할 핵심 업무와 단계별 행동을 상세화합니다.</p>
                 </div>
                 <div class="space-y-10 w-full">
-                    <div class="w-full">
+                    <div>
                         <label class="block font-bold text-slate-700 mb-2">질문: AI가 수행해야 할 가장 핵심적인 동사적 행동은 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Most critical verbal action</p>
-                        <textarea id="coreAction" class="textarea-base h-60" placeholder="수행해야 할 핵심 작업을 동사 위주로 상세히 입력하세요."></textarea>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Core Action</p>
+                        <textarea id="coreAction" class="textarea-base h-60" placeholder="예: 분석하여 리포트 작성, 코드를 리팩토링, 긴 문서를 요약 등"></textarea>
                     </div>
-                    <div class="w-full">
+                    <div>
                         <label class="block font-bold text-slate-700 mb-2">질문: 이 작업을 통해 달성하고자 하는 궁극적인 목적이나 KPI는 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Ultimate Goal or KPI</p>
-                        <textarea id="kpi" class="textarea-base h-48" placeholder="성과 지표를 입력하세요."></textarea>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Ultimate Goal / KPI</p>
+                        <textarea id="kpi" class="textarea-base h-48" placeholder="예: 실행 가능한 액션 플랜 도출, 오류 없는 완성된 코드 등"></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 작업을 수행하기 위해 거쳐야 할 논리적인 단계가 있다면 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Logical steps required</p>
-                        <textarea id="logicalSteps" class="textarea-base h-48" placeholder="1단계, 2단계 등 절차를 입력하세요."></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 각 단계에서 특히 주의 깊게 검토해야 할 요소는 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Care items to review</p>
-                        <textarea id="careItems" class="textarea-base h-48" placeholder="핵심 체크 포인트를 입력하세요."></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2">질문: 작업을 수행하기 위해 거쳐야 할 논리적인 단계와 검토 요소는 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Steps & Critical Review Items</p>
+                        <textarea id="logicalSteps" class="textarea-base h-60" placeholder="1단계: 상황 파악, 2단계: 대안 제시 등 절차와 각 단계별 주의점을 입력하세요."></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3: Context & Few-Shot -->
+            <!-- Step 3: Context & Rules -->
             <div class="wizard-step w-full" id="step3">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">3. 배경 정보 및 맥락</h2>
-                    <p class="text-slate-500">품질 높은 답변을 위해 필요한 데이터와 입출력 예시를 입력합니다.</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">3. 배경 맥락 및 제약 사항</h2>
+                    <p class="text-slate-500">정확한 답변을 위한 배경 지식과 반드시 지켜야 할(또는 피해야 할) 규칙을 설정합니다.</p>
                 </div>
                 <div class="space-y-10 w-full">
-                    <div class="w-full">
+                    <div>
                         <label class="block font-bold text-slate-700 mb-2 text-blue-600 tracking-tight flex items-center gap-2">
                             <i data-lucide="zap" class="w-4 h-4"></i> 퓨샷(Few-Shot): 입출력 예시
                         </label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Examples for AI to follow</p>
                         <textarea id="fewShot" class="textarea-base h-64 border-blue-100 shadow-blue-50/50" placeholder="[예시 1] 입력: ..., 출력: ..."></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2 text-red-600">질문: AI가 반드시 지켜야 할 제약사항 및 규칙은 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Mandatory Constraints or Rules</p>
-                        <textarea id="mandatoryRules" class="textarea-base h-48 border-red-100" placeholder="반드시 준수해야 할 규칙을 입력하세요."></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2">질문: AI가 참고해야 할 핵심 데이터나 반드시 알아야 할 배경 맥락은 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Reference Data & Contextual Background</p>
+                        <textarea id="context" class="textarea-base h-60" placeholder="참조 문서 내용이나 현재의 구체적인 상황을 입력하세요."></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: AI가 참고해야 할 핵심 데이터나 문서의 내용은 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Core data or document reference</p>
-                        <textarea id="referenceData" class="textarea-base h-60" placeholder="참조할 데이터 내용을 입력하세요."></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 현재 상황에서 AI가 반드시 알고 있어야 할 사전 지식이나 비즈니스 맥락은 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Prior knowledge or context</p>
-                        <textarea id="businessContext" class="textarea-base h-60" placeholder="배경 상황을 입력하세요."></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 답변 시 반드시 피해야 할 내용이나 단어, 태도가 있나요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Avoidance contents</p>
-                        <textarea id="avoidance" class="textarea-base h-48" placeholder="피해야 할 금기어를 입력하세요."></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2 text-red-600">질문: AI가 반드시 지켜야 할 규칙이나 절대 피해야 할 사항(금기어 등)은 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Mandatory Constraints (Do's & Don'ts)</p>
+                        <textarea id="constraints" class="textarea-base h-60 border-red-100" placeholder="예: 특정 단어 사용 금지, 반드시 실무 예시 포함, 전문 용어 설명 필수 등"></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 4: Output Format & Detail -->
+            <!-- Step 4: Output Format -->
             <div class="wizard-step w-full" id="step4">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">4. 출력 규격 및 심도/분량</h2>
-                    <p class="text-slate-500">원하는 결과물의 형태와 상세도 수준을 구체적으로 지정합니다.</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">4. 출력 규격 및 포맷</h2>
+                    <p class="text-slate-500">결과물의 형태, 상세도, 언어 등을 구체적으로 지정합니다.</p>
                 </div>
                 <div class="space-y-10 w-full">
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 어떤 형식으로 출력되기를 원하시나요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Desired Output Format</p>
-                        <textarea id="outputFormat" class="textarea-base h-48" placeholder="예: Markdown, JSON 등"></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2">질문: 어떤 형식으로 출력되기를 원하며, 필수 포함 섹션은 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Output Format & Required Sections</p>
+                        <textarea id="outputFormat" class="textarea-base h-48" placeholder="예: Markdown 리포트(개요, 분석, 결론 포함), JSON 코드 등"></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 답변의 심도(상세도) 수준은 어느 정도여야 하나요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Depth and Detail Level</p>
-                        <textarea id="outputDepth" class="textarea-base h-48 border-indigo-100" placeholder="예: 상세 기술 가이드 등"></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 답변의 상세도(심도)와 구체적인 분량 가이드는 어떠한가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Depth and Length Guide</p>
+                        <textarea id="outputDepth" class="textarea-base h-48 border-indigo-100" placeholder="예: 학술적 심층 분석, 요점 위주의 3줄 요약, A4 1장 분량 등"></textarea>
                     </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 결과물의 구체적인 분량 제한이 있나요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Specific Length Guide</p>
-                        <textarea id="outputLength" class="textarea-base h-48 border-indigo-100" placeholder="예: 공백 포함 1500자 이내 등"></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 결과물에 반드시 포함되어야 할 항목이나 섹션 제목은 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Required Items</p>
-                        <textarea id="requiredSections" class="textarea-base h-48" placeholder="필수 포함 항목들을 입력하세요."></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 결과물의 언어는 무엇인가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Output Language</p>
-                        <textarea id="language" class="textarea-base h-48" placeholder="출력 언어를 입력하세요."></textarea>
-                    </div>
-                    <div class="w-full">
-                        <label class="block font-bold text-slate-700 mb-2">질문: 시각적 스타일링이 필요한가요?</label>
-                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Visual Styling & Emoji</p>
-                        <textarea id="visualStyling" class="textarea-base h-48" placeholder="스타일링 요구사항을 입력하세요."></textarea>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-2">질문: 결과물의 언어 및 시각적 스타일링(이모지 등) 요구사항은 무엇인가요?</label>
+                        <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Language & Visual Styling</p>
+                        <textarea id="visual" class="textarea-base h-48" placeholder="예: 한국어와 영어 병기, 가독성을 위해 불렛 포인트와 이모지 적극 사용"></textarea>
                     </div>
                 </div>
             </div>
@@ -284,28 +252,28 @@
                     <p class="text-slate-500">추론 전략을 선택하여 답변의 논리적 정확도를 높입니다.</p>
                 </div>
                 <div class="space-y-6 w-full">
-                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm">
+                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm text-left">
                         <input type="checkbox" id="useCot" class="w-6 h-6 accent-blue-600">
                         <div class="flex flex-col">
                             <span class="font-bold text-lg text-slate-800">'생각의 사슬(CoT)' 기법 적용</span>
                             <span class="text-sm text-slate-400 italic">Show step-by-step reasoning process.</span>
                         </div>
                     </label>
-                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm">
+                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm text-left">
                         <input type="checkbox" id="useTot" class="w-6 h-6 accent-blue-600">
                         <div class="flex flex-col">
                             <span class="font-bold text-lg text-slate-800">'생각의 나무(ToT)' 기법 적용</span>
                             <span class="text-sm text-slate-400 italic">Analyze multiple alternatives and pick the best.</span>
                         </div>
                     </label>
-                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm">
+                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm text-left">
                         <input type="checkbox" id="useSelfReview" class="w-6 h-6 accent-blue-600">
                         <div class="flex flex-col">
                             <span class="font-bold text-lg text-slate-800">자기 검증 단계 포함</span>
                             <span class="text-sm text-slate-400 italic">Review logical errors or factual consistency automatically.</span>
                         </div>
                     </label>
-                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm">
+                    <label class="flex items-center gap-5 p-6 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-blue-500 transition-all w-full shadow-sm text-left">
                         <input type="checkbox" id="useEvidence" class="w-6 h-6 accent-blue-600">
                         <div class="flex flex-col">
                             <span class="font-bold text-lg text-slate-800">논리적 배경 및 근거 데이터 설명</span>
@@ -318,16 +286,15 @@
             <!-- Step 6: Final Review & Copy -->
             <div class="wizard-step w-full" id="step6">
                 <div class="text-center py-12">
-                    <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                    <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
                         <i data-lucide="check" class="w-10 h-10"></i>
                     </div>
                     <h2 class="text-3xl font-bold text-slate-900 mb-4">프롬프트 설계가 완료되었습니다!</h2>
                     <p class="text-slate-500 text-lg mb-8 max-w-md mx-auto">
-                        모든 요구사항이 정리되었습니다. 아래 버튼을 눌러 영문으로 최적화된 최종 프롬프트를 클립보드에 복사하세요.
+                        모든 요구사항이 정리되었습니다. 아래 버튼을 눌러 영문으로 최적화된 최종 프롬프트를 복사하세요.
                     </p>
                     
-                    <!-- 보강 안내 문구 추가 -->
-                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-10 max-w-lg mx-auto flex items-start gap-4 text-left">
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-10 max-w-lg mx-auto flex items-start gap-4 text-left shadow-sm">
                         <div class="mt-1">
                             <i data-lucide="help-circle" class="text-amber-600 w-6 h-6"></i>
                         </div>
@@ -352,7 +319,7 @@
     </main>
 
     <!-- Footer Navigation -->
-    <footer class="bg-white border-t border-slate-200 p-6 sticky bottom-0 z-50">
+    <footer class="bg-white border-t border-slate-200 p-6 sticky bottom-0 z-50 shadow-lg shadow-slate-100">
         <div class="max-w-4xl mx-auto flex justify-between">
             <button id="prevBtn" onclick="moveStep(-1)" class="px-8 py-4 text-slate-600 font-bold hover:bg-slate-50 rounded-xl flex items-center gap-2 transition-all opacity-0 pointer-events-none">
                 <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -365,10 +332,10 @@
         </div>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-full opacity-0 translate-y-4 pointer-events-none transition-all duration-500 z-[200] flex items-center gap-3 shadow-xl">
-        <i data-lucide="check-circle" class="text-green-400 w-5 h-5"></i>
-        <span class="font-bold">프롬프트가 복사되었습니다!</span>
+    <!-- Success Toast -->
+    <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-10 py-5 rounded-full opacity-0 translate-y-4 pointer-events-none transition-all duration-500 z-[200] flex items-center gap-4 shadow-2xl">
+        <i data-lucide="check-circle" class="text-green-400 w-6 h-6"></i>
+        <span class="font-bold text-lg">프롬프트가 복사되었습니다!</span>
     </div>
 
     <script>
@@ -433,7 +400,7 @@
             }
         }
 
-        // 모달 제어 함수
+        // 모달 제어
         function showModal() {
             document.getElementById('confirmModal').classList.add('active');
         }
@@ -442,12 +409,10 @@
             document.getElementById('confirmModal').classList.remove('active');
         }
 
-        // 전체 초기화 및 첫 페이지 이동 함수
+        // 전체 초기화 함수
         function resetWizard() {
             closeModal();
-            // 모든 폼 데이터 초기화
             document.getElementById('wizardForm').reset();
-            // 상태값 초기화 후 1단계로 이동
             currentStep = 1;
             updateWizardUI();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -457,36 +422,29 @@
             const getV = (id) => document.getElementById(id).value.trim() || "Not Provided";
             const getC = (id) => document.getElementById(id).checked ? "Yes, please apply." : "No, skip this.";
 
-            // 최종 프롬프트: 영문으로 구성 및 볼드체 제거
+            // 최종 프롬프트 (통합된 항목에 맞춰 영문 구성)
             const finalPrompt = `# User Requirements Analysis Survey
 
-## 1. Persona and Definition
+## 1. Role and Audience
 - Expert Persona: ${getV('persona')}
 - Recency Control: ${getV('recencyControl')}
+- Target Audience & Knowledge Level: ${getV('audience')}
 - Tone and Manner: ${getV('tone')}
-- Target Audience: ${getV('audience')}
-- Expertise Level: ${getV('expertise')}
 
-## 2. Task and Action Definition
+## 2. Goal and Task Definition
 - Core Verbal Action: ${getV('coreAction')}
 - Ultimate Goal / KPI: ${getV('kpi')}
-- Logical Steps: ${getV('logicalSteps')}
-- Critical Review Elements: ${getV('careItems')}
+- Steps and Critical Review Items: ${getV('logicalSteps')}
 
-## 3. Context and Background
+## 3. Context and Constraints
 - Few-Shot Examples: ${getV('fewShot')}
-- Mandatory Constraints and Rules: ${getV('mandatoryRules')}
-- Reference Data: ${getV('referenceData')}
-- Business Context/Prior Knowledge: ${getV('businessContext')}
-- Avoidance/Forbidden Terms: ${getV('avoidance')}
+- Reference Data & Background: ${getV('context')}
+- Mandatory Constraints (Rules / Do's & Don'ts): ${getV('constraints')}
 
 ## 4. Output Specification
-- Output Format: ${getV('outputFormat')}
-- Depth and Detail Level: ${getV('outputDepth')}
-- Length Constraint: ${getV('outputLength')}
-- Required Sections/Items: ${getV('requiredSections')}
-- Output Language: ${getV('language')}
-- Visual Styling (Emoji, Bold): ${getV('visualStyling')}
+- Format & Required Sections: ${getV('outputFormat')}
+- Depth and Length Guide: ${getV('outputDepth')}
+- Language & Visual Styling: ${getV('visual')}
 
 ## 5. Strategy and Advanced Options
 - Apply Chain-of-Thought (CoT): ${getC('useCot')}
@@ -499,10 +457,10 @@
 "You are the world's best prompt engineer and execution expert. The responses provided in the 'User Requirements Analysis Survey' above are your behavioral guidelines. Strictly follow the contents of each section and perform the task immediately without further clarification questions.
 
 ### Execution Guide:
-- Synchronize your identity and tone immediately according to the Persona section.
+- Synchronize your identity and tone immediately according to the Role section.
 - Identify the essence of the problem and derive a solution by combining Context and Task.
 - Structure your thinking process using the reasoning techniques specified in the Strategy section.
-- Output only the final result cleanly according to the specifications designated in the Format section.
+- Output only the final result cleanly according to the specifications designated in the Specification section.
 
 ### Run
 If you are ready, execute now based on the input data."`;
@@ -524,7 +482,6 @@ If you are ready, execute now based on the input data."`;
                 const successful = document.execCommand('copy');
                 if (successful) {
                     showToast();
-                    // 복사 성공 시 내용은 그대로 유지한 채 1단계로만 이동
                     setTimeout(() => {
                         currentStep = 1;
                         updateWizardUI();
@@ -534,7 +491,6 @@ If you are ready, execute now based on the input data."`;
             } catch (err) {
                 console.error('Failed to copy');
             }
-            
             document.body.removeChild(textArea);
         }
 
