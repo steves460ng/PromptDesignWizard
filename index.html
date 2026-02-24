@@ -33,11 +33,13 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 텍스트에리어 가로 100% 강제 적용 및 배경색 흰색으로 변경 */
         .textarea-base {
             display: block !important;
             width: 100% !important;
             box-sizing: border-box !important;
-            @apply px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white transition-all text-lg leading-relaxed resize-none;
+            /* 배경색을 bg-white로 고정하여 가독성 확보 */
+            @apply px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-lg leading-relaxed resize-none shadow-sm;
         }
 
         .progress-dot {
@@ -166,7 +168,8 @@
                             <i data-lucide="zap" class="w-4 h-4"></i> 퓨샷(Few-Shot): 입출력 예시
                         </label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Examples for AI to follow (Input-Output samples)</p>
-                        <textarea id="fewShot" class="textarea-base h-64 border-blue-100 bg-blue-50/30" placeholder="[예시 1]&#10;입력: ...&#10;출력: ...&#10;&#10;[예시 2]&#10;입력: ...&#10;출력: ..."></textarea>
+                        <!-- 배경색을 흰색으로 변경 -->
+                        <textarea id="fewShot" class="textarea-base h-64 border-blue-100 bg-white" placeholder="[예시 1]&#10;입력: ...&#10;출력: ...&#10;&#10;[예시 2]&#10;입력: ...&#10;출력: ..."></textarea>
                     </div>
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2">질문: AI가 참고해야 할 핵심 데이터나 문서의 내용은 무엇인가요?</label>
@@ -201,12 +204,14 @@
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 답변의 심도(상세도) 수준은 어느 정도여야 하나요?</label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Depth and Detail Level (e.g., Academic, Comprehensive)</p>
-                        <textarea id="outputDepth" class="textarea-base h-48 border-indigo-100 bg-indigo-50/20" placeholder="예: 학술적 분석 수준의 심도, 매우 상세한 기술 가이드, 간결한 요점 정리 등"></textarea>
+                        <!-- 배경색을 흰색으로 변경 -->
+                        <textarea id="outputDepth" class="textarea-base h-48 border-indigo-100 bg-white" placeholder="예: 학술적 분석 수준의 심도, 매우 상세한 기술 가이드, 간결한 요점 정리 등"></textarea>
                     </div>
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2 text-indigo-600">질문: 결과물의 구체적인 분량 제한이 있나요?</label>
                         <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Specific Length Guide (e.g., 2000 chars, 5 paragraphs)</p>
-                        <textarea id="outputLength" class="textarea-base h-48 border-indigo-100 bg-indigo-50/20" placeholder="예: A4 1장 분량, 공백 포함 1500자 이내, 각 섹션별 3문장 이상 등"></textarea>
+                        <!-- 배경색을 흰색으로 변경 -->
+                        <textarea id="outputLength" class="textarea-base h-48 border-indigo-100 bg-white" placeholder="예: A4 1장 분량, 공백 포함 1500자 이내, 각 섹션별 3문장 이상 등"></textarea>
                     </div>
                     <div class="w-full">
                         <label class="block font-bold text-slate-700 mb-2">질문: 결과물에 반드시 포함되어야 할 항목이나 섹션 제목은 무엇인가요?</label>
